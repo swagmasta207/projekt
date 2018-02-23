@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <cstring>
 #include <string.h>
 #include <stdlib.h>
+#include <sstream>
 
 using namespace std;
 /*
@@ -15,7 +17,14 @@ typedef struct
 
 Cell cell[256][256];
 
-double sumr(Cell cell[256][256], int bufx, int bufy, int lens)
+string to_string(double x)
+{
+  ostringstream ss;
+  ss << x;
+  return ss.str();
+}
+
+double sumr(Cell cell[256][256], int bufx, int bufy, int lens) /// =sum(r##,xxx,yyy,jr)
 {
     double S = 0.0;
     double N = 0.0;
@@ -23,33 +32,31 @@ double sumr(Cell cell[256][256], int bufx, int bufy, int lens)
     for(i=0;i<lens;i++)
     {
          N = atof(cell[bufx+i][bufy].dat);
-
          S = S + N;
     }
-
-
-
     return S;
 }
 
 
 
-
 int main(void)
 {
-
+    ostringstream strs;
     string line;
     char *cstr = new char[line.length() + 1];
     int bufx = 0;
     int bufy = 0;
     int lens;
-    char* fun ;
-    fun = (char*)malloc(sizeof(char));
-    *(fun + 0) = '='; // puue
-    int i, j;
-    double S = 0.0;
-    char* tok; //tok = strtok (line,"#");
-    ifstream txt ("tabel.txt");
+    int nofunc = 1;
+    int x = 0;
+    int jrk = 0;
+    int amount = 0;
+    int i[256];
+    int j[256];
+    double S[256];
+    char* tok;
+    fstream txt ;
+    txt.open("tabel.txt", ios::in);
     do
     {
         bufy = 0;
@@ -61,42 +68,71 @@ int main(void)
             lens = strlen(tok);
             cell[bufx][bufy].dat = (char*)malloc(lens*sizeof(char*));
             strcpy(cell[bufx][bufy].dat,tok);
-            //cout << bufx << "|" << bufy << " - " << cell[bufx][bufy].dat << endl;
             if(*(cell[bufx][bufy].dat + 0) == '=')
             {
-                i = bufx;
-                j = bufy;
+                i[x] = bufx;
+                j[x] = bufy;
+                x++;
+                amount++;
             }
             tok = strtok (NULL,"|");
             bufy++;
         }
         bufx++;
     }while(txt.good());
-    /*cout << endl << endl;
-    for(i=0;i<256;i++)
+    txt.close();
+    x=0;
+    jrk = 0;
+    if (amount <=0)
     {
-        for(j=0;j<256;j++)
-        {
-            if(cell[i][j].dat != NULL)
-            {
-                cout << i << "|" << j << " - " << cell[i][j].dat << endl;
-            }
-        }
-    }*/
-    if(*(cell[i][j].dat + 1) == 's')
-    {
-        if(*(cell[i][j].dat + 2) == 'u')
-        {
-            lens = *(cell[i][j].dat + 6) - '0';
-            if(*(cell[i][j].dat + 5) == 'r')
-            {
-                bufx = 100*(*(cell[i][j].dat + 8) - '0') + 10*(*(cell[i][j].dat + 9) - '0') + (*(cell[i][j].dat + 10) - '0');
-                bufy = 100*(*(cell[i][j].dat + 12) - '0') + 10*(*(cell[i][j].dat + 13) - '0') + (*(cell[i][j].dat + 14) - '0');
-                S = sumr(cell, bufx, bufy, lens);
-            }
-        }
+        return 1;
     }
-    //cout << "Sum: " << S << endl;
+    do{
+        if(*(cell[i[x]][j[x]].dat + 0) == '=')
+            {
+            if((10*(*(cell[i[x]][j[x]].dat + 17) - '0') + (*(cell[i[x]][j[x]].dat + 18) - '0')) == jrk)
+            {
+                jrk++;
+                if(*(cell[i[x]][j[x]].dat + 1) == 's')
+                {
+                    if(*(cell[i[x]][j[x]].dat + 2) == 'u')
+                    {
+                        lens = 10*(*(cell[i[x]][j[x]].dat + 6) - '0') + (*(cell[i[x]][j[x]].dat + 7) - '0');
+                        if(*(cell[i[x]][j[x]].dat + 5) == 'r')
+                        {
+                            bufx = 100*(*(cell[i[x]][j[x]].dat + 9) - '0') + 10*(*(cell[i[x]][j[x]].dat + 10) - '0') + (*(cell[i[x]][j[x]].dat + 11) - '0');
+                            bufy = 100*(*(cell[i[x]][j[x]].dat + 13) - '0') + 10*(*(cell[i[x]][j[x]].dat + 14) - '0') + (*(cell[i[x]][j[x]].dat + 15) - '0');
+                            snprintf(cell[i[x]][j[x]].dat, 256, "%f", sumr(cell, bufx, bufy, lens));
+                            nofunc = 0;
+                            x=-1;
+                        }
+                    }
+                }
+            }
+        }
+        x++;
+    }while(x >= 0 && jrk < amount);
+
+    if(nofunc == 0){
+        bufx = 0;
+        bufy = 0;
+        txt.open("tabel.txt", ios::out);
+        do{
+            do{
+                if(cell[bufx][bufy].dat != NULL)
+                {
+                    txt << cell[bufx][bufy].dat << "|";
+                } else {
+                    txt << " |";
+                }
+                bufy++;
+            }while (cell[bufx][bufy].dat != NULL);
+            txt << "\n";
+            bufy = 0;
+            bufx++;
+        }while(cell[bufx][bufy].dat != NULL);
+        txt.close();
+    }
     return 0;
 }
 
