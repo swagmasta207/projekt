@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sstream>
+#include <ctype.h>
 
 using namespace std;
 /*
@@ -48,7 +49,9 @@ int main(void)
     int bufy = 0;
     int lens;
     int nofunc = 1;
+    int lenght;
     int x = 0;
+    int k;
     int jrk = 0;
     int amount = 0;
     int i[256];
@@ -86,7 +89,42 @@ int main(void)
     if (amount <=0)
     {
         return 1;
+    } else
+    {
+        /// katkise funktsiooni kontroll
+        for(x=0;x<amount;x++)
+        {
+            k=-1;
+            do{
+                k++;
+            }while((*(cell[i[x]][j[x]].dat + k) != NULL));
+            if(k!=20)
+            {
+                return 1;
+            }
+            if(isalpha(*(cell[i[x]][j[x]].dat + 1)) == 0){return 1;}
+            if(isalpha(*(cell[i[x]][j[x]].dat + 2)) == 0){return 1;}
+            if(isalpha(*(cell[i[x]][j[x]].dat + 3)) == 0){return 1;}
+            if((*(cell[i[x]][j[x]].dat + 4)) != '('){return 1;}
+            if(isalpha(*(cell[i[x]][j[x]].dat + 5)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 6)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 7)) == 0){return 1;}
+            if((*(cell[i[x]][j[x]].dat + 8)) != ','){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 9)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 10)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 11)) == 0){return 1;}
+            if((*(cell[i[x]][j[x]].dat + 12)) != ','){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 13)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 14)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 15)) == 0){return 1;}
+            if((*(cell[i[x]][j[x]].dat + 16)) != ','){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 17)) == 0){return 1;}
+            if(isdigit(*(cell[i[x]][j[x]].dat + 18)) == 0){return 1;}
+            if((*(cell[i[x]][j[x]].dat + 19)) != ')'){return 1;}
+        }
     }
+
+    x=0;
     do{
         if(*(cell[i[x]][j[x]].dat + 0) == '=')
             {
