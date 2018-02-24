@@ -1,44 +1,5 @@
 #include <iostream>
-#include <fstream>
-#include <cstring>
-#include <string.h>
-#include <stdlib.h>
-#include <sstream>
-#include <ctype.h>
-
-using namespace std;
-/*
-
-*/
-
-typedef struct
-{
-    char* dat;
-}Cell;
-
-Cell cell[256][256];
-
-string to_string(double x)
-{
-  ostringstream ss;
-  ss << x;
-  return ss.str();
-}
-
-double sumr(Cell cell[256][256], int bufx, int bufy, int lens) /// =sum(r##,xxx,yyy,jr)
-{
-    double S = 0.0;
-    double N = 0.0;
-    int i;
-    for(i=0;i<lens;i++)
-    {
-         N = atof(cell[bufx+i][bufy].dat);
-         S = S + N;
-    }
-    return S;
-}
-
-
+#include "functions.cpp"
 
 int main(void)
 {
@@ -49,9 +10,8 @@ int main(void)
     int bufy = 0;
     int lens;
     int nofunc = 1;
-    int lenght;
     int x = 0;
-    int k;
+    int k = 0;
     int jrk = 0;
     int amount = 0;
     int i[256];
@@ -70,6 +30,7 @@ int main(void)
         {
             lens = strlen(tok);
             cell[bufx][bufy].dat = (char*)malloc(lens*sizeof(char*));
+
             strcpy(cell[bufx][bufy].dat,tok);
             if(*(cell[bufx][bufy].dat + 0) == '=')
             {
@@ -80,10 +41,12 @@ int main(void)
             }
             tok = strtok (NULL,"|");
             bufy++;
+
         }
         bufx++;
     }while(txt.good());
     txt.close();
+
     x=0;
     jrk = 0;
     if (amount <=0)
@@ -165,7 +128,7 @@ int main(void)
                 }
                 bufy++;
             }while (cell[bufx][bufy].dat != NULL);
-            txt << "\n";
+            txt << endl;
             bufy = 0;
             bufx++;
         }while(cell[bufx][bufy].dat != NULL);
