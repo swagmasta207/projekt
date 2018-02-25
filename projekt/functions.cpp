@@ -35,7 +35,7 @@ double sumr(Cell cell[256][256], int bufx, int bufy, int lens) /// =sum(r##,xxx,
 }
 
 
-double sumv(Cell cell[256][256], int bufx, int bufy, int lens) /// =sum(r##,xxx,yyy,jr)
+double sumv(Cell cell[256][256], int bufx, int bufy, int lens) /// =sum(v##,xxx,yyy,jr)
 {
     double S = 0.0;
     double N = 0.0;

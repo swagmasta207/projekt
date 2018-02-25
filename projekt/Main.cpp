@@ -106,6 +106,13 @@ int main(void)
                             snprintf(cell[i[x]][j[x]].dat, 256, "%f", sumr(cell, bufx, bufy, lens));
                             nofunc = 0;
                             x=-1;
+                        } else if(*(cell[i[x]][j[x]].dat + 5) == 'v')
+                        {
+                            bufx = 100*(*(cell[i[x]][j[x]].dat + 9) - '0') + 10*(*(cell[i[x]][j[x]].dat + 10) - '0') + (*(cell[i[x]][j[x]].dat + 11) - '0');
+                            bufy = 100*(*(cell[i[x]][j[x]].dat + 13) - '0') + 10*(*(cell[i[x]][j[x]].dat + 14) - '0') + (*(cell[i[x]][j[x]].dat + 15) - '0');
+                            snprintf(cell[i[x]][j[x]].dat, 256, "%f", sumv(cell, bufx, bufy, lens));
+                            nofunc = 0;
+                            x=-1;
                         }
                     }
                 }
