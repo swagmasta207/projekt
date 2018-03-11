@@ -1,0 +1,46 @@
+/*¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤*/
+html {
+  background-color:white;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.input {
+    position:absolute;
+    background-color:red;
+    width: 50%;
+    height:300px;
+    border: 2px solid;
+    padding-left: 8px;
+    margin: 25px;
+}
+.output {
+  background-color:red;
+      position:absolute;
+
+    min-width: 100px;
+    width: 50%;
+    height:300px;
+    border: 2px solid;
+    padding-left: 8px;
+    margin-left: 55%;
+    margin-top:-329px
+}
+
+/*¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤input_salary¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤*/
+.input_salary{
+  display:inline-block;
+  position: relative;
+  }
+.input_salary input{
+  padding-right:10px;
+    
+}
+.input_salary:before {
+ 
+  position: absolute;
+    top: 0;
+    content:"juuro";
+    left:100px;
+  top:2px;
+  }
