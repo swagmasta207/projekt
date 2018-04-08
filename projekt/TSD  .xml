@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsd_vorm>
+/t<c108_Aasta></c108_Aasta>
+/t<c109_Kuu></c109_Kuu>
+/t<c110_Tm></c110_Tm>
+/t<c114_TmEj></c114_TmEj>
+/t<c115_Sm></c115_Sm>
+/t<c116_Tk></c116_Tk>
+/t<c117_Kp></c117_Kp>
+/t<c118_KohustKokku></c118_KohustKokku>
+/t<c119_TagastKokku></c119_TagastKokku>
+/t<laadimisViis></laadimisViis>
+/t<regKood></regKood>
+	<tsd_L1_0>
+		<aIsikList>
+			<tsd_L1_A_Isik>
+							</tsd_L1_A_Mvt>
+						</mvtList>
+					</tsd_L1_A_Vm>
+				</vmList>
+			</tsd_L1_A_Isik>
+		</aIsikList>
+		<c1200_Smvm></c1200_Smvm>
+		<c1210_Smv</c1210_Smv
+		<c1230_Tk></c1230_Tk>
+		<c1240_Ttk></c1240_Ttk>
+		<c1250_Tm><c1250_Tm>
+	</tsd_L1_0>
+	<vorm>TSD</vorm>
+</tsd_vorm>
