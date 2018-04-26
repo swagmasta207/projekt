@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CLWcalc ver5.1</title>
+<meta charset="utf-8">
+<style type="text/css">
+body {font-size: 1.2em;}
+.button {
+	border: 2px solid black; background-color: blue;
+	font-size: .6em; font-weight: bold; color: white;
+	width: 50px;
+	height: 30px;
+	margin-top: .4em;
+}
+.button2 {background-color: red;}
+.button3 {background-color: green;}
+.button4 {background-color: #9999ff;}
+.button5 {	background-color: black;
+			width: 160px;
+			height: 30px;}
+.button6 {background-color: black;}
+.button:disabled, .button[disable] {background-color: gray;}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+.dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 6px;
+    font-size: 12px;
+    text-decoration: none;
+    display: block;
+    border-style: solid none solid none;
+}
+
+.dropdown a:hover {background-color: #ddd}
+
+.show {display:block;}
+
+.display {
+	font-size: 12px;
+}
+/*Hoiab arvutuse ja vastuste ala kogu aeg ühe suurusega-*/
+p:after {
+  content:"";
+  display:inline-block;
+  width:0px;
+}
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select:none;
+	user-select: none;
+}
+</style>
+</head>
+<body>
+
+<div class="dropdown"> 
+    <button onclick="showDropdown()" class="dropbtn">Eelnevad vastused</button>
+    <div id="resultDropdown" class="dropdown-content"></div>
+</div>
+
+<table style='width:216px;border:none; padding:1px; background-color: #ccffff;'>
+    <tr><td><p id="operationDisplay" class = "display"></p></td></tr>
+    <tr><td><p id="resultDisplay" class = "display"></p></td></tr>
+</table>
+
+<div class="noselect" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+    <input onclick="clearScreen()" class = "button button2" type="button" value="Clear" id="clearInput" />
+    <input onclick="deleteLastEntry()" class = "button button2" type="button" value="Del" id="deleteLast" />
+    <input onclick="moveResult()" class = "button button2" type="button" value="↑" id="move" /><br />
+    
+    <input onclick="squareRoot()" class = "button button4" type="button" value="√" id="squareRootCalc" />
+    <input onclick="cubedRoot()" class = "button button4" type="button" value="&sup3√" id="cubedRootCalc" />
+    <input onclick="square()" class = "button button4" type="button" value="x&sup2" id="squareCalc" />
+    <input onclick="cube()" class = "button button4" type="button" value="x&sup3" id="cubeCalc" /><br />
+    
+    <input onclick="buttonPress(this, '(')" class = "button button4" type="button" value="(" id="braketLeft" />
+    <input onclick="buttonPress(this, ')')" class = "button button4" type="button" value=")" id="braketRight" />
+    <input onclick="buttonPress(this, '**')" class = "button button4" type="button" value="^" id="power" /><br />
+    
+    <input onclick="buttonPress(this, '7')" class = "button" type="button" value="7" id="button7" />
+    <input onclick="buttonPress(this, '8')" class = "button" type="button" value="8" id="button8" />
+    <input onclick="buttonPress(this, '9')" class = "button" type="button" value="9" id="button9" />
+    <input onclick="buttonPress(this, '+')" class = "button" type="button" value="+" id="buttonPlus" /><br />
+    
+    <input onclick="buttonPress(this, '4')" class = "button" type="button" value="4" id="button4" />
+    <input onclick="buttonPress(this, '5')" class = "button" type="button" value="5" id="button5" />
+    <input onclick="buttonPress(this, '6')" class = "button" type="button" value="6" id="button6" />
+    <input onclick="buttonPress(this, '-')" class = "button" type="button" value="-" id="buttonMinus" /><br />
+    
+    <input onclick="buttonPress(this, '1')" class = "button" type="button" value="1" id="button1" />
+    <input onclick="buttonPress(this, '2')" class = "button" type="button" value="2" id="button2" />
+    <input onclick="buttonPress(this, '3')" class = "button" type="button" value="3" id="button3" />
+    <input onclick="buttonPress(this, '*')" class = "button" type="button" value="*" id="buttonMultiply" /><br />
+    
+    <input onclick="buttonPress(this, '0')" class = "button" type="button" value="0" id="button0" />
+    <input onclick="buttonPress(this, '.')" class = "button" type="button" value="." id="buttonDot" />
+    <input onclick="equals()" class = "button button3" type="button" value="=" id="buttonEquals" />
+    <input onclick="buttonPress(this, '/')" class = "button" type="button" value="/" id="buttonDivide" /><br />
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+var resultBox = document.getElementById('resultDisplay');
+var operationBox = document.getElementById('operationDisplay');
+
+function showDropdown() {
+    document.getElementById("resultDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+function resultSaving(front, back){
+	var dropdown = document.getElementById('resultDropdown');
+	var resultAmount = dropdown.getElementsByTagName('a');
+
+	if (resultAmount.length <= 5) {
+		dropdown.innerHTML += '<a href="JavaScript:void(0)" onclick="buttonPress(this, \'' + resultBox.innerHTML + '\')">' + front + operationBox.innerHTML + back + ' = <br />' + resultBox.innerHTML +'</a>\r\n'
+		//dropdown.innerHTML += '<a href="JavaScript:void(0)" onclick="buttonPress(this, \'' + resultBox.innerHTML + '\')">' + resultBox.innerHTML +'</a>\r\n'
+	} else {
+		resultAmount[0].parentNode.removeChild(resultAmount[0])
+		dropdown.innerHTML += '<a href="JavaScript:void(0)" onclick="buttonPress(this, \'' + resultBox.innerHTML + '\')">' + front + operationBox.innerHTML + back + ' = <br />' + resultBox.innerHTML +'</a>\r\n'
+	}
+}
+
+//Koma diable ja komakohtade piiraja
+function checkChange(){
+	var tehe = operationBox.innerHTML;
+	var pikkus = tehe.length;
+	//Viimane on tehtemärk
+	if(tehe.charAt(pikkus-1) == "+" || tehe.charAt(pikkus-1) == "-" || tehe.charAt(pikkus-1) == "*" || tehe.charAt(pikkus-1) == "/"){
+        document.getElementById('buttonDot').disabled = false;
+	} else {
+		//Viimane ei olnud tehtemärk, vaja leida kus on/kas on
+		for(var i = pikkus - 1; i >= 0; i--){
+			if(tehe.charAt(i) == "+" || tehe.charAt(i) == "-" || tehe.charAt(i) == "*" || tehe.charAt(i) == "/"){
+				//Eelmine tehtemärk leitud, punkti polnud
+                document.getElementById('buttonDot').disabled = false;
+                break;
+			} else if (tehe.charAt(i) == ".") {
+                //Leidis punkti
+                document.getElementById('buttonDot').disabled = true;
+                if((pikkus - 1 - i) >= 16){
+                    switch (tehe.charAt(pikkus - 1)){
+                        case "0":
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                        case "9":
+                            operationBox.innerHTML = "Liiga palju komakohti";
+                            setTimeout(function (){
+                                operationBox.innerHTML = tehe;
+                                deleteLastEntry();
+                            }, 1000);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+            } else {
+                document.getElementById('buttonDot').disabled = false;
+            }
+		}
+	}
+}
+
+//Klaviatuuri sisestus
+document.addEventListener('keydown', function(event) {
+switch (event.keyCode) {
+    case 27:
+    	clearScreen();
+    	break;
+    case 8:
+    	deleteLastEntry();
+        break;
+    case 13:
+        equals();
+        break;
+    case 48:
+    case 49:
+    case 50:
+    case 51:
+    case 52:
+    case 53:
+    case 54:
+    case 55:
+    case 56:
+    case 57:
+        buttonPress(this, event.keyCode-48);
+        break;
+    case 96:
+    case 97:
+    case 98:
+    case 99:
+    case 100:
+    case 101:
+    case 102:
+    case 103:
+    case 104:
+    case 105:
+        buttonPress(this, event.keyCode-96);
+        break;
+    case 106:
+        buttonPress(this, '*');
+        break;
+    case 107:
+        buttonPress(this, '+');
+        break;
+    case 109:
+        buttonPress(this, '-');
+        break;
+    case 110:
+    case 190:
+        buttonPress(this, '.');
+        break;
+    case 111:
+        buttonPress(this, '/');
+        break;
+    case 219:
+        buttonPress(this, '(');
+        break;
+    case 221:
+        buttonPress(this, ')');
+        break;
+}});
+
+//Tavaline nupp ja tehtemärgita sulule korutuse lisamine
+function buttonPress(button, inputChar){
+    if(document.getElementById('buttonDot').disabled == true && inputChar == "."){
+        return;
+    } else {
+        if(inputChar == "("){
+            if(operationBox.innerHTML.charAt(operationBox.innerHTML.length - 1) != "+" && operationBox.innerHTML.charAt(operationBox.innerHTML.length - 1) != "-" && operationBox.innerHTML.charAt(operationBox.innerHTML.length - 1) != "/" && operationBox.innerHTML.charAt(operationBox.innerHTML.length - 1) != "*" && operationBox.innerHTML.charAt(operationBox.innerHTML.length - 1) != "(" && operationBox.innerHTML.length != 0){
+                operationBox.innerHTML = operationBox.innerHTML + "*" + inputChar;
+            } else {
+                operationBox.innerHTML = operationBox.innerHTML + inputChar;
+            }
+        } else if (operationBox.innerHTML.charAt(operationBox.innerHTML.length - 1) == ")"){
+            if(inputChar != "+" && inputChar != "-" && inputChar != "/" && inputChar != "*" && inputChar != ")"){
+                operationBox.innerHTML = operationBox.innerHTML + "*" + inputChar;
+            } else {
+                operationBox.innerHTML = operationBox.innerHTML + inputChar;
+            }
+        } else {
+            operationBox.innerHTML = operationBox.innerHTML + inputChar;
+        }
+        checkChange();
+    }
+}
+
+//Erilised nupud
+function clearScreen(){
+	operationBox.innerHTML= "";
+	resultBox.innerHTML= "";
+    document.getElementById('buttonDot').disabled = false;
+}
+function moveResult(){
+    var e = resultBox.innerHTML.indexOf("e");
+    var dot = resultBox.innerHTML.indexOf(".");
+    if ((e != -1) || (dot == -1) || ((resultBox.innerHTML.length - dot) <= 15)){
+        operationBox.innerHTML = resultBox.innerHTML;
+        resultBox.innerHTML = "";
+    } else {
+        operationBox.innerHTML = (parseFloat(resultBox.innerHTML)).toFixed(15);
+        resultBox.innerHTML = "";
+    }
+    checkChange();
+}
+function deleteLastEntry(){
+	operationBox.innerHTML = operationBox.innerHTML.slice(0,operationBox.innerHTML.length-1);
+    checkChange();
+}
+function equals(){
+	resultBox.innerHTML = eval(operationBox.innerHTML);
+	/*if(resultBox.innerHTML == Infinity){
+		resultBox.innerHTML = "Täis puue"
+	}*/
+	/*SHIT BROKEN YO
+	var i = resultBox.innerHTML.length;
+	for(; i > resultBox.innerHTML.indexOf("."); i--){
+		if(resultBox.innerHTML.charAt(i+1) != 0){
+			resultBox.innerHTML = resultBox.innerHTML.slice(0,i+1);
+			break;
+		}
+	}*/
+	resultSaving("","");
+	//checkChange();
+}
+
+//Erilised tehted
+function squareRoot(){
+	resultBox.innerHTML= Math.sqrt(eval(operationBox.innerHTML));
+	//operationBox.innerHTML= "√(" + operationBox.innerHTML + ")";
+	resultSaving("√(",")");
+}
+function cubedRoot(){
+	resultBox.innerHTML= Math.cbrt(eval(operationBox.innerHTML));
+	resultSaving("&sup3√(",")");
+}
+function square(){
+	resultBox.innerHTML= Math.pow((eval(operationBox.innerHTML)),2);
+	resultSaving("(",")&sup2");
+}
+function cube(){
+	resultBox.innerHTML= Math.pow((eval(operationBox.innerHTML)),3);
+	resultSaving("(",")&sup3");
+}
+
+</script>
+
+</body>
+</html>

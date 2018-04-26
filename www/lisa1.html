@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link rel="stylesheet" type="text/css" href="css\css_main.css">
+  <link rel="stylesheet" type="text/css" href="css\Calendar.css">
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <title>Projekt</title>
+</head>
+<body>
+  <div class="nav_menu">
+  <button class="nav_btn">Menüü</button>
+  <div class="nav_content">
+    <a href="lisa1.html">Lisa 1</a>
+    <a href="#">blabla</a>
+    <a href="#">blablabla</a>
+  </div>
+</div>
+<div class="main_content">
+    <div class="input">
+       <form action="JavaScript:void(0)">
+  <div class = "input_name">
+  Nimi:
+  <br>
+  <input type="text" id="Nimi_0" placeholder="Mart Tamm" title="Nimi">
+</div>
+
+  <div class="Kood">
+  Isikukood:
+  <br>
+  <input type="number" id="Kood_0" placeholder="31234567890" title="Isikukood">
+</div>
+
+  <div class = "Summa">
+  Palk<br>
+  <input type="number" title="Palk" id="Summa_0" placeholder="639">
+  
+  </div>
+  <div class = "OtMaar">
+  Tööaja määr:<br>
+  <input type="number" id="OtMaar_0" placeholder="1" value = "1">
+  <br>Kogumispension:<input type="checkbox" id="Kp">
+<br><br>
+
+<div class=calendar>
+<div id="date" title="Kalender">
+  <div id="dateSelection" class="container">
+    <center>
+    <!--Algus päev:
+    <input id="startDate" readonly onclick="showCalendar('start')"/><br />
+    Lõpp päev:
+    <input id="endDate" readonly onclick="showCalendar('end')"/><br />-->
+    <p id="calendarInstructions">Valige vahemik</p>
+    <div id="v-cal">
+      <div class="vcal-header">
+        <button id="prevBtn" class="vcal-btn" data-calendar-toggle="previous">
+          <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
+          </svg>
+        </button>
+
+        <div class="vcal-header__label" data-calendar-label="month">
+          March 2017
+        </div>
+
+
+        <button id="nextBtn" class="vcal-btn" data-calendar-toggle="next">
+          <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="vcal-week">
+        <span>E</span>
+        <span>T</span>
+        <span>K</span>
+        <span>N</span>
+        <span>R</span>
+        <span>L</span>
+        <span>P</span>
+      </div>
+      <div class="vcal-body" data-calendar-area="month"></div>
+    </div>
+    </center>
+  </div>
+</div>
+    <input type="image" id="CalendarButton" onclick="CalendarOn()" src="calendar-icon.png" />
+    <br>
+    Haiguspäevade arv:<div id="sick_days_0">0</div>
+</div>
+<br>
+<button id="arvuta">Arvutas</button>
+
+</form>   
+    </div>
+    <div class="output">
+      <div class="outputLeft">
+      SM:<div id="Sm_0">0</div>
+      <br>
+      TM:<div id="Tm_0">0</div>
+      <br>
+      TTK: <div id="Ttk_0">0</div>
+      <br>
+      <!--<div id="KoguKulu_0">0</div></div><br>-->
+      <div class="outputRight">
+      TK: <div id="Tk_0">0</div>
+      <br>
+      KP: <div id="Kp_0">0</div>
+      <br> 
+      Neto: <div id="NetoSumma_0">0</div>
+      <br>
+  </div>
+</div>
+</div>
+    <div id="addedRows"></div>
+
+<!--<div class="row">
+<button class="btn new_row" onclick="newRow(this.form);" type="button">Lisa uus väli</button>
+<button class="btn delete_row" onclick="deleteRow()"> delete me or i'll kill you bitch   
+</div>    -->
+<input type="file" id="inputfile">
+    </body>
+
+    <div id = "calculator_box">
+      <iframe id="calculator" src="kalkulaator\CLWcalc ver5.1.html" frameborder="0" width="362" height="350"></iframe>
+
+  </div>
+  <script>
+  
+function CalendarOn() {
+    document.getElementById("date").style.display = "block";
+    daySelection = 0;
+    document.getElementById("date").addEventListener("click", function(event) {
+      if (!document.getElementById('dateSelection').contains(event.target)) {
+        document.getElementById("date").style.display = "none";
+        resetCalendar();
+      }
+    });
+}
+
+function resetCalendar() {
+  var startDate = null;
+  var endDate = null;
+  var daySelection = 0;
+  document.getElementById("sick_days_0").innerHTML = 0;
+}
+  </script>
+  <script src="js/Calendar.js" type="text/javascript"></script>
+  <script>
+    /*function showCalendar(selection) {
+      document.getElementById("v-cal").style.display = "block";
+      okBtnSelection = selection;
+    }*/
+
+    window.addEventListener('load', function () {
+      vanillaCalendar.init({
+        disablePastDays: false//true
+      });
+    })
+  </script> 
+  <script src="xmllugemine.js" type="text/javascript"></script>
+  <script src="server_comms.js" type="text/javascript"></script>
+
+<footer>
+</footer>
+</html>
