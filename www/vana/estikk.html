@@ -1,0 +1,31 @@
+ <?php
+$answer = shell_exec("pro1_sots (2)");
+$array =  explode('\n', $answer);
+//echo json_encode($array);
+
+?>
+
+<button id="nupp" onclick="secksycow()">kysfaggot</button>
+<input type="text" name="kys" id="kysevenmore" value = "1000">
+<script>
+function secksycow(){
+	
+var xmlhttp = new XMLHttpRequest();
+var palk = document.getElementById('kysevenmore').value;
+xmlhttp.open("GET", "totxt.php?q=" + palk, false);
+xmlhttp.send();
+
+var sahomo = <?php echo json_encode($array);?>;
+
+	document.getElementById("zahomo").innerHTML=sahomo;
+
+}
+
+</script>
+<div id="result">"kys homo hang " +<span id="zahomo">
+	<script >
+		document.write(sahomo);
+	</script>
+
+</span></div>
+
